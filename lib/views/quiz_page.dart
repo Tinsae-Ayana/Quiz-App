@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quiz_app/blocs/quiz_bloc.dart';
+import 'package:quiz_app/data/quiz_api.dart';
 import 'package:quiz_app/models/question.dart';
 
 class QuizPage extends StatelessWidget {
@@ -10,19 +11,22 @@ class QuizPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
-    return BlocBuilder<QuizBloc, QuizState>(
-      builder: (context, state) {
-        return Scaffold(
-          backgroundColor: Theme.of(context).backgroundColor,
-          appBar: AppBar(
-            elevation: 0.0,
-            backgroundColor: Theme.of(context).primaryColor,
-          ),
-          body: state.questions == const <Question>[]
-              ? const Center(child: CircularProgressIndicator())
-              : QuizBody(width: width, height: height),
-        );
-      },
+    return BlocProvider(
+      create: (context) => QuizBloc(data: QuizesApi()),
+      child: BlocBuilder<QuizBloc, QuizState>(
+        builder: (context, state) {
+          return Scaffold(
+            backgroundColor: Theme.of(context).backgroundColor,
+            appBar: AppBar(
+              elevation: 0.0,
+              backgroundColor: Theme.of(context).primaryColor,
+            ),
+            body: state.questions == const <Question>[]
+                ? const Center(child: CircularProgressIndicator())
+                : QuizBody(width: width, height: height),
+          );
+        },
+      ),
     );
   }
 }

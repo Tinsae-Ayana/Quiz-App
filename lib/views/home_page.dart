@@ -20,7 +20,7 @@ class Home extends StatelessWidget {
           width: width * 0.6,
           child: ElevatedButton(
               onPressed: () {
-                Navigator.pop(context, MaterialPageRoute(builder: (context) {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
                   return const QuizPage();
                 }));
               },
